@@ -1,0 +1,30 @@
+# Ambiente virtuale
+.venv/
+
+# File generati da Python
+__pycache__/
+*.py[cod]
+
+# Database locali SQLite
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Esportazioni delle ricevute
+exports/
+
+# Configurazione e segreti locali
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Configurazione locale dell'editor
+.vscode/
+
+# File del sistema operativo
+Thumbs.db
+.DS_Store
