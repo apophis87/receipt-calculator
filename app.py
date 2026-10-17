@@ -1,9 +1,10 @@
 from decimal import Decimal, ROUND_HALF_UP
-import streamlit as st
-from database import get_receipts, initialize_database, insert_receipt
+
 import pandas as pd
-from analysis import calculate_summary
+import streamlit as st
+
 from analysis import aggregate_expenses, calculate_summary
+from database import get_receipts, initialize_database, insert_receipt
 
 st.set_page_config(
     page_title="Receipt Calculator",
@@ -19,7 +20,7 @@ st.write("Registra le ricevute e analizza le tue spese.")
 with st.form("receipt_form", clear_on_submit=True):
     store = st.text_input("Negozio")
 
-    amount = st.number_input("Importo (CHF)", min_value=0.0, step=0.05, format="%.2f")
+    amount = st.number_input("Importo (CHF)", min_value=0.0, step=0.01, format="%.2f")
 
     receipt_date = st.date_input("Data della ricevuta")
 
@@ -127,11 +128,7 @@ else:
     )
 
     export_df = export_df[["receipt_date", "store", "amount_chf"]].rename(
-        columns={
-            "receipt_date": "date",
-            "store": "store",
-            "amount_chf": "amount_chf",
-        }
+        columns={"receipt_date": "date"}
     )
 
     csv_data = export_df.to_csv(index=False).encode("utf-8-sig")

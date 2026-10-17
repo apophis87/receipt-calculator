@@ -80,9 +80,20 @@ Exports contain the filtered receipts with these columns:
 
 Files use comma separators, decimal points and UTF-8 with BOM.
 
+## Tests
+
+Run the automated tests from the project directory:
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+Tests cover summary statistics, weekly boundaries, receipt storage
+and input validation. Database tests use temporary files and do not
+modify personal receipts.
+
 ## Current limitations
 
 - CHF only.
 - No editing or deletion of receipts.
 - No authentication; intended for local personal use.
-- No automated tests yet.

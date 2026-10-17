@@ -1,12 +1,13 @@
 import sqlite3
 from pathlib import Path
 from datetime import date
+from contextlib import closing
 
 DATABASE_PATH = Path(__file__).resolve().parent / "receipts.db"
 
 
 def initialize_database():
-    with sqlite3.connect(DATABASE_PATH) as connection:
+    with closing(sqlite3.connect(DATABASE_PATH)) as connection, connection:
         connection.execute("""
             CREATE TABLE IF NOT EXISTS receipts (
                 id INTEGER PRIMARY KEY,
@@ -24,10 +25,13 @@ def insert_receipt(store: str, amount_cents: int, receipt_date: date) -> int:
     if not store:
         raise ValueError("Il nome del negozio è obbligatorio.")
 
+    if type(amount_cents) is not int:
+        raise ValueError("L'importo deve essere espresso in centesimi interi.")
+
     if amount_cents <= 0:
         raise ValueError("L'importo deve essere maggiore di zero.")
 
-    with sqlite3.connect(DATABASE_PATH) as connection:
+    with closing(sqlite3.connect(DATABASE_PATH)) as connection, connection:
 
         cursor = connection.execute(
             """
@@ -42,7 +46,7 @@ def insert_receipt(store: str, amount_cents: int, receipt_date: date) -> int:
 
 
 def get_receipts() -> list[sqlite3.Row]:
-    with sqlite3.connect(DATABASE_PATH) as connection:
+    with closing(sqlite3.connect(DATABASE_PATH)) as connection, connection:
         connection.row_factory = sqlite3.Row
 
         receipts = connection.execute("""
