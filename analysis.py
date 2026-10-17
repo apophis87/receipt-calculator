@@ -1,5 +1,6 @@
 from statistics import mean, median
 import pandas as pd
+from datetime import date
 
 
 def calculate_summary(amounts_cents: list[int]) -> dict:
@@ -36,3 +37,20 @@ def aggregate_expenses(
     totals = daily_totals.resample(frequency).sum()
 
     return totals.rename("amount_cents").to_frame()
+
+
+def filter_receipts(
+    receipts: pd.DataFrame,
+    start_date: date,
+    end_date: date,
+) -> pd.DataFrame:
+    if start_date > end_date:
+        raise ValueError(
+            "La data iniziale deve precedere o coincidere con quella finale."
+        )
+
+    receipt_dates = receipts["receipt_date"].dt.date
+
+    return receipts.loc[
+        (receipt_dates >= start_date) & (receipt_dates <= end_date)
+    ].copy()

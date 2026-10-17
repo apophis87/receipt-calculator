@@ -54,9 +54,12 @@ Open the local URL displayed in the terminal.
 
 ## Project structure
 
-- `app.py`: Streamlit interface.
-- `database.py`: database initialization, receipt insertion and retrieval.
-- `analysis.py`: summary statistics and spending aggregation.
+- `app.py`: application setup and workflow coordination.
+- `ui.py`: Streamlit forms, filters, metrics, tables and charts.
+- `database.py`: SQLite initialization, receipt insertion and retrieval.
+- `analysis.py`: date filtering, summary statistics and spending aggregation.
+- `export.py`: CSV generation.
+- `tests/`: automated tests for analysis, storage and CSV export.
 - `requirements.txt`: direct dependencies.
 - `requirements-lock.txt`: pinned environment dependencies.
 
@@ -88,9 +91,9 @@ Run the automated tests from the project directory:
 python -m unittest discover -s tests -v
 ```
 
-Tests cover summary statistics, weekly boundaries, receipt storage
-and input validation. Database tests use temporary files and do not
-modify personal receipts.
+Tests cover summary statistics, inclusive date filtering, weekly
+boundaries, receipt storage, input validation and CSV export.
+Database tests use temporary files and do not modify personal receipts.
 
 ## Current limitations
 
